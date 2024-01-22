@@ -1,4 +1,22 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+import Swifter
+import Dispatch
 
-print("Hello, world!")
+guard let nodeID = ArgumentParser.getValue("id") else {
+    print("Please provide the node's id as the command line argument (id=HERE_THE_NAME)")
+    exit(0)
+}
+let server = HttpServer()
+server["/"] = { request, responseHeaders in
+    .ok(.html("LoadBalancerNode: \(nodeID)"))
+}
+do {
+    var port: UInt16 = 9090
+    if let arg = ArgumentParser.getValue("port"), let number = UInt16(arg) {
+        port = number
+    }
+    print("Started LoadBalancerNode: \(nodeID) on port: \(port)")
+    try server.start(port)
+} catch {
+    print("Error srating server: \(error)")
+}
+dispatchMain()
