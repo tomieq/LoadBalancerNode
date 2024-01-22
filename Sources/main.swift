@@ -1,3 +1,4 @@
+import Foundation
 import Swifter
 import Dispatch
 
@@ -5,9 +6,11 @@ guard let nodeID = ArgumentParser.getValue("id") else {
     print("Please provide the node's id as the command line argument (id=HERE_THE_NAME)")
     exit(0)
 }
+
 let server = HttpServer()
 server["/"] = { request, responseHeaders in
-    .ok(.html("LoadBalancerNode: \(nodeID)"))
+    print("\(nodeID) Handling request")
+    return .ok(.html("LoadBalancerNode: \(nodeID)"))
 }
 do {
     var port: UInt16 = 9090
