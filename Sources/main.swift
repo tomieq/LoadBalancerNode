@@ -12,6 +12,10 @@ server["/"] = { request, responseHeaders in
     print("\(nodeID) Handling request")
     return .ok(.html("LoadBalancerNode: \(nodeID)"))
 }
+server["/health"] = { request, responseHeaders in
+    print("\(nodeID) Health check")
+    return .ok(.html("LoadBalancerNode: \(nodeID)"))
+}
 do {
     var port: UInt16 = 9090
     if let arg = ArgumentParser.getValue("port"), let number = UInt16(arg) {
