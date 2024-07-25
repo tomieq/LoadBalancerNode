@@ -16,6 +16,18 @@ server["/health"] = { request, responseHeaders in
     print("\(nodeID) Health check")
     return .ok(.html("LoadBalancerNode: \(nodeID)"))
 }
+
+server.notFoundHandler = { request, responseHeaders in
+    print("File `\(request.path)` doesn't exist")
+    return .notFound()
+}
+server.middleware.append( { request, header in
+    print("Request \(request.id) \(request.method) \(request.path) from \(request.peerName ?? "")")
+    request.onFinished = { id, code, duration in
+        print("Request \(id) finished with \(code) in \(String(format: "%.3f", duration)) seconds")
+    }
+    return nil
+})
 do {
     var port: UInt16 = 9090
     if let arg = ArgumentParser.getValue("port"), let number = UInt16(arg) {

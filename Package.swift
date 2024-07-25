@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "LoadBalancerNode",
     dependencies: [
-        .package(url: "https://github.com/tomieq/swifter.git", .upToNextMajor(from: "1.5.6"))
+        .package(url: "https://github.com/tomieq/swifter.git", .upToNextMajor(from: "2.0.0"))
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
